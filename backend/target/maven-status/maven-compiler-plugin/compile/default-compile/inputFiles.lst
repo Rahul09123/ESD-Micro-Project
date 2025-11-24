@@ -5,3 +5,4 @@
 /home/asus/Desktop/vite-project/backend/src/main/java/com/example/backend/repository/EmployeeRepository.java
 /home/asus/Desktop/vite-project/backend/src/main/java/com/example/backend/DataInitializer.java
 /home/asus/Desktop/vite-project/backend/src/main/java/com/example/backend/config/WebConfig.java
+/home/asus/Desktop/vite-project/backend/src/main/java/com/example/backend/api/AuthController.java

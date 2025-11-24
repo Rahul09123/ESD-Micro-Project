@@ -1,247 +1,208 @@
-:root {
-    --bg: #f6f8fb;
-    --card: #ffffff;
-    --muted: #6b7280;
-    --accent: #2563eb;
-    --danger: #dc2626;
+/* Global reset and typography */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Verdana, Geneva, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-    box-sizing: border-box
+/* Logged-in dashboard background */
+.dashboard-page {
+  min-height: 100vh;
+  width: 100%;
+  /* Soft gradient background */
+  background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 40%, #e0f2fe 100%);
+  /* Provide spacing around content cards */
+  padding: 24px 0;
 }
 
-html,
-body,
-#root {
-    height: 100%
+/* FULL PAGE BACKGROUND */
+.auth-page {
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+  background-image: url('/src/assets/auth-left.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  box-sizing: border-box;
 }
 
-body {
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-    margin: 0;
-    padding: 0;
-    background: var(--bg);
-    color: #111827;
+.glass-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border-radius: 20px;
+  padding: 3rem 3.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
 }
 
-.container {
-    max-width: 1100px;
-    margin: 2.5rem auto;
-    padding: 1rem
+/* BRAND */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.card {
-    background: var(--card);
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
-    padding: 1rem
+.brand .logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
 }
 
-.login-card {
-    max-width: 480px;
-    margin: 2rem auto;
-    padding: 1.25rem
+/* HEADINGS */
+.glass-card h1 {
+  margin: 0;
+  color: white;
+  font-size: 32px;
+  font-weight: 700;
 }
 
-.login-card h2 {
-    margin-top: 0
+.glass-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
 }
 
-.form-row {
-    margin-bottom: 12px
-}
-
-.form-row label {
-    display: block;
-    margin-bottom: 6px;
-    font-size: 14px;
-    color: var(--muted)
-}
-
-.form-row input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #e6e9ef;
-    border-radius: 8px
-}
-
-.btn {
-    background: var(--accent);
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    cursor: pointer
-}
-
-.btn[disabled] {
-    opacity: 0.6;
-    cursor: default
-}
-
-.muted {
-    color: var(--muted);
-    font-size: 13px
-}
-
+/* ERROR MESSAGE */
 .error {
-    color: var(--danger)
+  color: #ff6b6b;
+  font-weight: 500;
 }
 
+/* Google fallback button */
+.btn-google {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #4285F4;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 4px 14px rgba(66,133,244,0.22);
+}
+
+.btn-google:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.glass-card p, .glass-card h1, .brand {
+  font-family: inherit;
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .glass-card {
+    padding: 2rem 1.25rem;
+  }
+}
+
+/* ===== Dashboard Styles ===== */
+/* Page container (scoped) */
+.app-container {
+  max-width: 980px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+
+/* Card (scoped custom) */
+.app-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+/* Top bar inside card */
 .topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
 }
 
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Buttons: use Bootstrap .btn variants instead of custom */
+
+/* Muted text */
+.muted {
+  color: #6b7280;
+}
+
+/* Table */
 .salary-table {
-    width: 100%;
-    border-collapse: collapse
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
 }
 
 .salary-table th,
 .salary-table td {
-    padding: 12px;
-    border-bottom: 1px solid #f1f5f9
+  padding: 10px 12px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
 }
 
-.salary-table th {
-    color: var(--muted);
-    text-align: left
+.salary-table thead th {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+  background: #f9fafb;
 }
 
-.right {
-    text-align: right
+.salary-table tbody tr:hover {
+  background: #fcfcfc;
 }
 
-.user-info strong {
-    display: inline-block;
-    margin-right: 8px
+.right { text-align: right; }
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+  .topbar { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .user-info { width: 100%; justify-content: space-between; }
 }
 
-/* Split auth layout (left form, right image) */
-.auth-split {
-    display: flex;
-    min-height: 80vh;
-    border-radius: 12px;
-    overflow: hidden
+/* Current month emphasis */
+.current-month-table thead th {
+  background: #e0f2fe; /* light sky */
+  color: #0c4a6e;
 }
 
-.auth-left {
-    flex: 1;
-    padding: 48px 56px;
-    background: var(--card)
+.current-month-table tbody td {
+  background: #f0f9ff; /* softer sky */
 }
 
-.auth-right {
-    flex: 1;
-    background-image: linear-gradient(135deg, #b3d4ff, #ffd6f0), url('/src/assets/auth-hero.jpg');
-    background-size: cover;
-    background-position: center
+/* Larger button variant */
+.btn-lg {
+  padding: 10px 16px;
+  font-size: 15px;
 }
-
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 12px
-}
-
-.brand .logo {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    background: linear-gradient(135deg, #2563eb, #7c3aed)
-}
-
-.signup-cta {
-    margin-top: 18px;
-    background: linear-gradient(90deg, #2563eb, #7c3aed);
-    color: white;
-    border-radius: 10px;
-    padding: 12px 16px;
-    text-align: center;
-    font-weight: 600
-}
-
-.or-divider {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 18px 0;
-    color: var(--muted)
-}
-
-.or-divider::before,
-.or-divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: #eef2ff
-}
-
-.social-row {
-    display: flex;
-    gap: 12px
-}
-
-.social-btn {
-    flex: 1;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid #e6e9ef;
-    background: white;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center
-}
-
-.signin-link {
-    margin-top: 18px;
-    font-size: 14px
-}
-
-/* Additional modern, dark-accent theme for auth pages */
-:root{
-    --bg-dark:#0f1724;
-    --card-dark:#0b1220;
-    --accent-dark:#6366f1;
-    --muted-light:#94a3b8;
-    --text-light:#e6eef8;
-    --danger:#ff6b6b;
-}
-
-.auth-split.dark {
-    background: linear-gradient(180deg, var(--bg-dark), #071428);
-}
-
-.auth-left.dark {
-    background: transparent;
-    color: var(--text-light);
-}
-
-.auth-right.dark {
-    display: none;
-}
-
-@media(min-width:980px){
-    .auth-right.dark { display:block }
-}
-
-.brand .logo.dark{
-    width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent-dark),#06b6d4);
-}
-
-.auth-left .muted{ color: var(--muted-light) }
-.auth-left h1{ color: var(--text-light) }
-
-.client-id-debug{ font-size:12px; color:var(--muted-light); margin-top:8px }
-
-.card.dark{ background: rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03); box-shadow: 0 8px 30px rgba(2,6,23,0.5); }
-
-.btn-google{ display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:8px; background:white; color:#111827; font-weight:600 }
-
-.error{ color: var(--danger); font-weight:700 }
-
-.dashboard { padding: 24px }
-.dashboard .card { margin-bottom: 16px }

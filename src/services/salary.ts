@@ -1,7 +1,7 @@
 export type SalaryRecord = {
-  month: string // YYYY-MM format
+  month: string
   amount: number
-  paidOn: string // ISO date
+  paidOn: string
 }
 
 // Return mock salary history for a given employee id

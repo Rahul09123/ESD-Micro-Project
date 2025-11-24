@@ -40,6 +40,7 @@ export default function SalaryHistory({ user, onLogout }: Props) {
   // previous month
   const prev = new Date(today.getFullYear(), today.getMonth() - 1, 1)
   const prevMonth = fmtYYYYMM(prev)
+  const currentRecord = records?.find(r => r.month === currentMonth)
 
   function downloadPreviousMonth() {
     if (!records) return
@@ -52,13 +53,13 @@ export default function SalaryHistory({ user, onLogout }: Props) {
   }
 
   return (
-    <div className="container">
-      <div className="card">
-          <div className="topbar">
-            <h2>Salary History</h2>
-            <div className="user-info">
-              <strong>{user.name}</strong>
-              <button className="btn" onClick={onLogout} style={{background:'#ef4444'}}>Logout</button>
+    <div className="container my-4">
+      <div className="card p-3">
+          <div className="d-flex align-items-center justify-content-between mb-3">
+            <h2 className="h4 mb-0">Salary History</h2>
+            <div className="d-flex align-items-center gap-2">
+              <strong className="me-2">{user.name}</strong>
+              <button className="btn btn-outline-danger" onClick={onLogout}>Logout</button>
             </div>
           </div>
 
@@ -66,59 +67,50 @@ export default function SalaryHistory({ user, onLogout }: Props) {
 
           {!loading && records && (
             <>
-              {/* Current month prominent card */}
-              <div className="card" style={{marginBottom:16}}>
-                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+              {/* Current month Bootstrap card */}
+              <div className="card mb-3 border-info" style={{background:'#e0f2fe'}}>
+                <div className="card-body d-flex justify-content-between align-items-center">
                   <div>
-                    <div className="muted">Current Month</div>
-                    <div style={{fontSize:20,fontWeight:700}}>
-                      {(() => {
-                        const cur = records.find(r => r.month === currentMonth)
-                        return cur ? `$${cur.amount.toFixed(2)}` : 'No data for this month'
-                      })()}
-                    </div>
-                    <div className="muted" style={{fontSize:13}}>
-                      {(() => {
-                        const cur = records.find(r => r.month === currentMonth)
-                        return cur ? `Paid on ${cur.paidOn}` : ''
-                      })()}
-                    </div>
+                    <h5 className="card-title mb-1">Current Month</h5>
+                    <p className="card-text mb-0">
+                      {currentRecord ? (
+                        <>
+                          <strong>${currentRecord.amount.toFixed(2)}</strong>
+                          <span className="text-muted ms-2">Paid on {currentRecord.paidOn}</span>
+                        </>
+                      ) : (
+                        <span className="text-muted">No data for this month</span>
+                      )}
+                    </p>
                   </div>
-                  <div style={{textAlign:'right'}}>
-                    <div className="muted">Previous month</div>
-                    <div style={{marginTop:8}}>
-                      <button className="btn" onClick={downloadPreviousMonth}>
-                        Download {prevMonth} slip
-                      </button>
-                    </div>
-                  </div>
+                  <button className="btn btn-lg btn-dark" onClick={downloadPreviousMonth}>
+                    Download {prevMonth} slip
+                  </button>
                 </div>
               </div>
 
-              <table className="salary-table">
-                <thead>
-                  <tr>
-                    <th>Month</th>
-                    <th className="right">Amount</th>
-                    <th>Paid On</th>
-                    <th>Slip</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {records.map(r => (
-                    <tr key={r.month}>
-                      <td>{r.month}</td>
-                      <td className="right">${r.amount.toFixed(2)}</td>
-                      <td>{r.paidOn}</td>
-                      <td>
-                        <button className="btn" onClick={()=>downloadSlip(r)}>
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              {/* All months as Bootstrap cards */}
+              <div className="row g-3">
+                {records.map(r => (
+                  <div className="col-12 col-sm-6 col-lg-4" key={r.month}>
+                    <div className="card h-100">
+                      <div className="card-header d-flex justify-content-between align-items-center">
+                        <span>{r.month}</span>
+                        {r.month === currentMonth && <span className="badge text-bg-info">Current</span>}
+                      </div>
+                      <div className="card-body d-flex flex-column">
+                        <h5 className="card-title mb-2">${r.amount.toFixed(2)}</h5>
+                        <p className="card-text text-muted mb-4">Paid on {r.paidOn}</p>
+                        <div className="mt-auto">
+                          <button className="btn btn-dark w-100" onClick={() => downloadSlip(r)}>
+                            Download Slip
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </>
           )}
       </div>

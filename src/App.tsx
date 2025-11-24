@@ -8,7 +8,11 @@ function AppInner() {
   return (
     <div>
       {!user && <Login />}
-      {user && <SalaryHistory user={user} onLogout={logout} />}
+      {user && (
+        <div className="dashboard-page">
+          <SalaryHistory user={user} onLogout={logout} />
+        </div>
+      )}
     </div>
   )
 }

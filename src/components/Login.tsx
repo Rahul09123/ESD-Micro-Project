@@ -9,6 +9,7 @@ export default function Login() {
   const { loginWithGoogle } = useAuth()
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [gisReady, setGisReady] = useState(false)
 
   useEffect(() => {
     // load Google Identity Services script
@@ -53,6 +54,7 @@ export default function Login() {
         const container = document.getElementById('g_id_signin')
         if (container) {
           window.google.accounts.id.renderButton(container, { theme: 'outline', size: 'large' })
+          setGisReady(true)
         }
       } catch (e) {
         setError('Failed to initialize Google Sign-In')
@@ -68,7 +70,7 @@ export default function Login() {
     // Otherwise, attach a load handler to the script we added earlier
     const existing = Array.from(document.getElementsByTagName('script')).find(s => s.src && s.src.includes('accounts.google.com/gsi/client')) as HTMLScriptElement | undefined
     if (existing) {
-      existing.addEventListener('load', initGoogle)
+      existing.addEventListener('load', () => { initGoogle(); setGisReady(true) })
       return () => existing.removeEventListener('load', initGoogle)
     }
 
@@ -77,35 +79,110 @@ export default function Login() {
     s.src = 'https://accounts.google.com/gsi/client'
     s.async = true
     s.defer = true
-    s.addEventListener('load', initGoogle)
+    s.addEventListener('load', () => { initGoogle(); setGisReady(true) })
     document.head.appendChild(s)
     return () => { s.removeEventListener('load', initGoogle); s.remove() }
   }, [loginWithGoogle])
 
+  async function handleManualSignIn() {
+    setError(null)
+    setLoading(true)
+    try {
+      const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID as string
+      if (!clientId) {
+        setError('Missing VITE_GOOGLE_CLIENT_ID environment variable')
+        return
+      }
+
+      if (window.google && window.google.accounts && window.google.accounts.id) {
+        // ensure initialized (safe to call multiple times)
+        try {
+          window.google.accounts.id.initialize({
+            client_id: clientId,
+            callback: async (resp: any) => {
+              setLoading(true)
+              setError(null)
+              try {
+                await loginWithGoogle(resp.credential)
+              } catch (err: any) {
+                setError(err?.message || 'Google sign-in failed')
+              } finally {
+                setLoading(false)
+              }
+            }
+          })
+        } catch (e) {
+          // ignore
+        }
+
+        // try One Tap / prompt which will invoke the same callback
+        try {
+          window.google.accounts.id.prompt()
+          return
+        } catch (e) {
+          // fallback: try to render the button into a temporary container
+          const tmp = document.getElementById('g_id_signin')
+          if (tmp) {
+            try { window.google.accounts.id.renderButton(tmp, { theme: 'outline', size: 'large' }) } catch (e) {}
+            return
+          }
+        }
+      }
+
+      setError('Google Identity script not loaded. Check network or refresh the page.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
-    <div className="auth-split">
-      <div className="auth-left">
-        <div className="brand">
-          <div className="logo" />
-          <div>
-            <div style={{fontWeight:700}}>InsideBox</div>
-            <div className="muted" style={{fontSize:12}}>Start your journey</div>
+    <div className="auth-page">
+      <div
+        className="card shadow-lg border-0"
+        style={{
+          maxWidth: 560,
+          width: '100%',
+          background: 'rgba(255,255,255,0.72)',
+          borderRadius: 20,
+          backdropFilter: 'blur(14px) saturate(160%)',
+          WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+          border: '1px solid rgba(255,255,255,0.35)',
+          boxShadow: '0 10px 30px rgba(0,0,0,0.25)'
+        }}
+      >
+        <div className="card-body p-5">
+          <div className="d-flex align-items-center mb-2">
+            <div className="rounded bg-primary me-2" style={{width:48,height:48}} />
+            <div>
+              <h3 className="mb-0">Welcome back</h3>
+              <small className="text-muted">Sign in to access your dashboard</small>
+            </div>
           </div>
-        </div>
+          <hr className="my-4" />
 
-        <h1 style={{marginTop:28,marginBottom:8}}>Sign In</h1>
-        <p className="muted">Sign in with Google to view salary history and download slips.</p>
-        <p style={{fontSize:12,marginTop:8}} className="muted">Client ID: {import.meta.env.VITE_GOOGLE_CLIENT_ID ?? '(not set)'}</p>
+          {error && (
+            <div className="alert alert-danger py-2" role="alert">
+              {error}
+            </div>
+          )}
 
-        <div style={{marginTop:22}}>
-          <div id="g_id_signin" />
-          {loading && <p>Signing in with Google...</p>}
-          {error && <p className="error" style={{marginTop:12}}>{error}</p>}
+          <div className="d-flex justify-content-center mb-4">
+            <div id="g_id_signin" />
+          </div>
 
-          <p className="muted" style={{marginTop:12}}>Make sure `VITE_GOOGLE_CLIENT_ID` is set in your environment.</p>
+          {/* Fallback button only if GIS button isn't ready */}
+          {!gisReady && (
+            <button
+              className="btn btn-dark btn-lg w-100"
+              onClick={handleManualSignIn}
+              disabled={loading}
+              aria-label="Sign in with Google"
+            >
+              {loading ? 'Signing in…' : 'Sign in with Google'}
+            </button>
+          )}
         </div>
       </div>
-      <div className="auth-right" aria-hidden="true"></div>
     </div>
   )
 }
