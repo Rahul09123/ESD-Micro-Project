@@ -24,6 +24,29 @@ export async function loginWithToken(email: string, password: string): Promise<{
   return { user, token }
 }
 
+export async function loginWithGoogle(idToken: string): Promise<{ user: Employee; token: string }> {
+  const base = import.meta.env.VITE_API_BASE ?? ''
+  const res = await fetch(`${base}/api/auth/google`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ idToken })
+  })
+  try {
+    if (!res.ok) {
+      const txt = await res.text()
+      throw new Error(`Authentication failed: ${res.status} ${res.statusText} - ${txt}`)
+    }
+    const data = await res.json()
+    return data as { user: Employee; token: string }
+  } catch (err: any) {
+    // Network or CORS errors surface as 'TypeError: Failed to fetch' in browsers
+    if (err instanceof TypeError) {
+      throw new Error(`Network/CORS error: ${err.message}`)
+    }
+    throw err
+  }
+}
+
 function delay(ms: number) {
   return new Promise(res => setTimeout(res, ms))
 }

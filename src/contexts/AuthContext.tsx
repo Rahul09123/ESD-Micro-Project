@@ -6,6 +6,7 @@ type AuthContextType = {
   user: Employee | null
   token?: string | null
   login: (email: string, password: string) => Promise<Employee>
+  loginWithGoogle: (idToken: string) => Promise<Employee>
   logout: () => void
 }
 
@@ -48,13 +49,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return res.user
   }
 
+  async function loginWithGoogle(idToken: string) {
+    const res = await authService.loginWithGoogle(idToken)
+    setUser(res.user)
+    setToken(res.token)
+    return res.user
+  }
+
   function logout() {
     setUser(null)
     setToken(null)
   }
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, loginWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   )

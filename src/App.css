@@ -200,3 +200,48 @@ body {
     margin-top: 18px;
     font-size: 14px
 }
+
+/* Additional modern, dark-accent theme for auth pages */
+:root{
+    --bg-dark:#0f1724;
+    --card-dark:#0b1220;
+    --accent-dark:#6366f1;
+    --muted-light:#94a3b8;
+    --text-light:#e6eef8;
+    --danger:#ff6b6b;
+}
+
+.auth-split.dark {
+    background: linear-gradient(180deg, var(--bg-dark), #071428);
+}
+
+.auth-left.dark {
+    background: transparent;
+    color: var(--text-light);
+}
+
+.auth-right.dark {
+    display: none;
+}
+
+@media(min-width:980px){
+    .auth-right.dark { display:block }
+}
+
+.brand .logo.dark{
+    width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent-dark),#06b6d4);
+}
+
+.auth-left .muted{ color: var(--muted-light) }
+.auth-left h1{ color: var(--text-light) }
+
+.client-id-debug{ font-size:12px; color:var(--muted-light); margin-top:8px }
+
+.card.dark{ background: rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03); box-shadow: 0 8px 30px rgba(2,6,23,0.5); }
+
+.btn-google{ display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:8px; background:white; color:#111827; font-weight:600 }
+
+.error{ color: var(--danger); font-weight:700 }
+
+.dashboard { padding: 24px }
+.dashboard .card { margin-bottom: 16px }

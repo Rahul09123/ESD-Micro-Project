@@ -1,9 +1,10 @@
 package com.example.backend.controller;
 
+import com.example.backend.model.Employee;
+import com.example.backend.repository.EmployeeRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.*;
 
 @RestController
@@ -35,12 +36,9 @@ public class EmployeeController {
         }
     }
 
-    // Mock DB
-    private static final List<EmployeeDTO> EMPLOYEES = Arrays.asList(
-            new EmployeeDTO(1, "Alice Johnson", "alice@example.com"),
-            new EmployeeDTO(2, "Bob Smith", "bob@example.com")
-    );
+    private final EmployeeRepository employeeRepository;
 
+    // Mock salary store remains for demo purposes
     private static final Map<Integer, List<SalaryDTO>> SALARY = new HashMap<>();
 
     static {
@@ -56,9 +54,17 @@ public class EmployeeController {
         ));
     }
 
+    public EmployeeController(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
     @GetMapping("/employees")
     public ResponseEntity<?> findByEmail(@RequestParam String email) {
-        return ResponseEntity.ok(EMPLOYEES.stream().filter(e -> e.email.equalsIgnoreCase(email)).findFirst().orElse(null));
+        Optional<Employee> e = employeeRepository.findByEmailIgnoreCase(email);
+        if (e.isEmpty()) return ResponseEntity.ok(null);
+        Employee emp = e.get();
+        EmployeeDTO dto = new EmployeeDTO(emp.getId(), emp.getName(), emp.getEmail());
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/employees/{id}/salary")
