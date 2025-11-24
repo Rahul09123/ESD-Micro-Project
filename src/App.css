@@ -1,0 +1,202 @@
+:root {
+    --bg: #f6f8fb;
+    --card: #ffffff;
+    --muted: #6b7280;
+    --accent: #2563eb;
+    --danger: #dc2626;
+}
+
+* {
+    box-sizing: border-box
+}
+
+html,
+body,
+#root {
+    height: 100%
+}
+
+body {
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: #111827;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 2.5rem auto;
+    padding: 1rem
+}
+
+.card {
+    background: var(--card);
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+    padding: 1rem
+}
+
+.login-card {
+    max-width: 480px;
+    margin: 2rem auto;
+    padding: 1.25rem
+}
+
+.login-card h2 {
+    margin-top: 0
+}
+
+.form-row {
+    margin-bottom: 12px
+}
+
+.form-row label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: var(--muted)
+}
+
+.form-row input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e6e9ef;
+    border-radius: 8px
+}
+
+.btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer
+}
+
+.btn[disabled] {
+    opacity: 0.6;
+    cursor: default
+}
+
+.muted {
+    color: var(--muted);
+    font-size: 13px
+}
+
+.error {
+    color: var(--danger)
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem
+}
+
+.salary-table {
+    width: 100%;
+    border-collapse: collapse
+}
+
+.salary-table th,
+.salary-table td {
+    padding: 12px;
+    border-bottom: 1px solid #f1f5f9
+}
+
+.salary-table th {
+    color: var(--muted);
+    text-align: left
+}
+
+.right {
+    text-align: right
+}
+
+.user-info strong {
+    display: inline-block;
+    margin-right: 8px
+}
+
+/* Split auth layout (left form, right image) */
+.auth-split {
+    display: flex;
+    min-height: 80vh;
+    border-radius: 12px;
+    overflow: hidden
+}
+
+.auth-left {
+    flex: 1;
+    padding: 48px 56px;
+    background: var(--card)
+}
+
+.auth-right {
+    flex: 1;
+    background-image: linear-gradient(135deg, #b3d4ff, #ffd6f0), url('/src/assets/auth-hero.jpg');
+    background-size: cover;
+    background-position: center
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px
+}
+
+.brand .logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #2563eb, #7c3aed)
+}
+
+.signup-cta {
+    margin-top: 18px;
+    background: linear-gradient(90deg, #2563eb, #7c3aed);
+    color: white;
+    border-radius: 10px;
+    padding: 12px 16px;
+    text-align: center;
+    font-weight: 600
+}
+
+.or-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 18px 0;
+    color: var(--muted)
+}
+
+.or-divider::before,
+.or-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #eef2ff
+}
+
+.social-row {
+    display: flex;
+    gap: 12px
+}
+
+.social-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #e6e9ef;
+    background: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center
+}
+
+.signin-link {
+    margin-top: 18px;
+    font-size: 14px
+}
