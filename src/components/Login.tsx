@@ -151,12 +151,12 @@ export default function Login() {
         }}
       >
         <div className="card-body p-5">
-          <div className="d-flex align-items-center mb-2">
-            <div className="rounded bg-primary me-2" style={{width:48,height:48}} />
-            <div>
-              <h3 className="mb-0">Welcome back</h3>
-              <small className="text-muted">Sign in to access your dashboard</small>
-            </div>
+          <div className="mb-4">
+            <h1 className="text-center mb-0">Employee ERP</h1>
+            <p className="text-center mb-0" style={{ fontWeight: 'bold', fontSize: '1.2rem', marginTop: '8px' }}>Portal Login</p>
+          </div>
+          <div className="text-center mb-4">
+            <p className="text-muted">Login to check out your payroll</p>
           </div>
           <hr className="my-4" />
 
@@ -181,6 +181,12 @@ export default function Login() {
               {loading ? 'Signing in…' : 'Sign in with Google'}
             </button>
           )}
+
+          <hr className="my-4" />
+          <div className="text-center" style={{ fontSize: '0.85rem', color: '#666' }}>
+            <p className="mb-2">© 2025 Payroll.com</p>
+            <a href="#privacy" style={{ color: '#0066cc', textDecoration: 'none' }}>Privacy Policy</a>
+          </div>
         </div>
       </div>
     </div>

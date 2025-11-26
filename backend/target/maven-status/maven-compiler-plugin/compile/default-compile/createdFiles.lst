@@ -1,11 +1,16 @@
+com/example/backend/config/WebConfig.class
 com/example/backend/controller/AuthController.class
 com/example/backend/DataInitializer.class
 com/example/backend/controller/EmployeeController$SalaryDTO.class
 com/example/backend/controller/AuthController$AuthResponse.class
+com/example/backend/config/CorsConfig.class
 com/example/backend/controller/AuthController$AuthRequest.class
+com/example/backend/exception/GlobalExceptionHandler.class
 com/example/backend/model/Employee.class
+com/example/backend/service/AuthService.class
 com/example/backend/BackendApplication.class
 com/example/backend/controller/EmployeeController$EmployeeDTO.class
+com/example/backend/service/AuthService$AuthResult.class
 com/example/backend/controller/EmployeeController.class
 com/example/backend/repository/EmployeeRepository.class
 com/example/backend/api/AuthApiPlaceholder.class

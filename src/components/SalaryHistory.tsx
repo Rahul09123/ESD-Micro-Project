@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import type { Employee } from '../model/model'
 import type { SalaryRecord } from '../services/salary'
 import * as salaryService from '../services/salary'
+import { downloadSalarySlip } from '../utils/downloadManager'
 
 type Props = { user: Employee; onLogout: () => void }
 
@@ -11,21 +12,12 @@ export default function SalaryHistory({ user, onLogout }: Props) {
 
   useEffect(() => {
     setLoading(true)
-    salaryService.getSalaryHistory(user.id).then(r => setRecords(r)).finally(()=>setLoading(false))
+    // user.id is guaranteed when this component is rendered (only shown for registered users)
+    salaryService.getSalaryHistory(user.id!).then(r => setRecords(r)).finally(()=>setLoading(false))
   }, [user.id])
 
   function downloadSlip(rec: SalaryRecord) {
-    // Simple plain-text slip; could be replaced with PDF generation
-    const content = `Salary Slip\nEmployee: ${user.name} (${user.id})\nMonth: ${rec.month}\nAmount: ${rec.amount}\nPaid On: ${rec.paidOn}\n`;
-    const blob = new Blob([content], { type: 'text/plain' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `salary-${user.id}-${rec.month}.txt`
-    document.body.appendChild(a)
-    a.click()
-    a.remove()
-    URL.revokeObjectURL(url)
+    downloadSalarySlip(user, rec)
   }
 
   // helper to format YYYY-MM for a Date
