@@ -67,7 +67,7 @@ export default function SalaryHistory({ user, onLogout }: Props) {
                     <p className="card-text mb-0">
                       {currentRecord ? (
                         <>
-                          <strong>${currentRecord.amount.toFixed(2)}</strong>
+                          <strong>₹{currentRecord.amount.toFixed(2)}</strong>
                           <span className="text-muted ms-2">Paid on {currentRecord.paidOn}</span>
                         </>
                       ) : (
@@ -91,7 +91,7 @@ export default function SalaryHistory({ user, onLogout }: Props) {
                         {r.month === currentMonth && <span className="badge text-bg-info">Current</span>}
                       </div>
                       <div className="card-body d-flex flex-column">
-                        <h5 className="card-title mb-2">${r.amount.toFixed(2)}</h5>
+                        <h5 className="card-title mb-2">₹{r.amount.toFixed(2)}</h5>
                         <p className="card-text text-muted mb-4">Paid on {r.paidOn}</p>
                         <div className="mt-auto">
                           <button className="btn btn-dark w-100" onClick={() => downloadSlip(r)}>

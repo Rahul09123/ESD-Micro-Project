@@ -44,7 +44,7 @@ export function generateSalarySlipContent(user: Employee, record: SalaryRecord):
     `Email:          ${user.email}`,
     '',
     `Month:          ${record.month}`,
-    `Amount:         $${record.amount.toFixed(2)}`,
+    `Amount:          $${record.amount.toFixed(2)}`,
     `Paid On:        ${record.paidOn}`,
     '',
     '=====================================',
